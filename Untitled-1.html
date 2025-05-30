@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #orca-container {
+            position: absolute;
+            width: 150px;
+            height: 80px;
+            pointer-events: none;
+            transition: transform 0.1s ease;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div id="orca-container">
+        <svg viewBox="0 0 150 80">
+            <!-- 虎鲸身体 -->
+            <path d="M10,40 Q30,10 70,20 Q110,30 140,40 Q110,50 70,60 Q30,70 10,40 Z" fill="black"/>
+            <!-- 白色腹部 -->
+            <path d="M30,40 Q50,30 70,35 Q90,40 110,40 Q90,45 70,50 Q50,55 30,40 Z" fill="white"/>
+            <!-- 背鳍 -->
+            <path d="M80,15 L90,5 L100,15 Z" fill="black"/>
+            <!-- 眼睛 -->
+            <circle cx="120" cy="35" r="3" fill="white"/>
+        </svg>
+    </div>
+    
+    <script>
+        const orca = document.getElementById('orca-container');
+        let mouseX = 0, mouseY = 0;
+        let orcaX = 0, orcaY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animate() {
+            let distX = mouseX - orcaX - 75; // 减去一半宽度使中心对准鼠标
+            let distY = mouseY - orcaY - 40; // 减去一半高度
+            
+            orcaX += distX / 10;
+            orcaY += distY / 10;
+            
+            orca.style.left = orcaX + 'px';
+            orca.style.top = orcaY + 'px';
+            
+            let angle = Math.atan2(distY, distX) * 180 / Math.PI;
+            orca.style.transform = `rotate(${angle}deg)`;
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>
